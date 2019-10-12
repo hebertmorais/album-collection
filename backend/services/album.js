@@ -6,9 +6,8 @@ module.exports = function () {
         return albumModel.addAlbum(album);
     }
 
-    this.editAlbum = function (album) {
-
-        return albumModel.editAlbum(album);
+    this.editAlbum = function (id, album) {
+        return albumModel.editAlbum(id, album);
     }
 
     this.getAllAlbums = function () {
@@ -23,7 +22,7 @@ module.exports = function () {
         return albumModel.queryAlbum(query);
     }
 
-    this.deleteAlbum = function (album) {
-        return albumModel.deleteAlbum(album.id);
+    this.deleteAlbum = function (albumId) {
+        return albumModel.deleteAlbum(albumId);
     }
 }
