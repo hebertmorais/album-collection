@@ -1,24 +1,38 @@
 //var db = require('../config/database');
 
 module.exports = function () {
-    function addAlbum() {
-        return "addAlbum";
+
+    this.addAlbum = function (album) {
+        var sqlStatement = "INSERT INTO album(artist_name, album_name, release_date, genre) VALUES ?";
+        var values = [
+            [album.artist_name, album.album_name, album.release_date, genre]
+        ]
+        return { sqlStatement, values };
     }
 
-    function editAlbum() {
-        return "editAlbum";
+    this.editAlbum = function (albumId) {
+        var sqlStatement = "UPDATE album SET artist_name = ?, album_name = ?, release_date = ?, genre = ? where id = ?";
+        var values = [
+            [album.artist_name, album.album_name, album.release_date, genre]
+        ]
+        return { sqlStatement, values };
     }
 
     this.getAllAlbums = function () {
-        return { 'ok': true };
+        var sqlStatement = "SELECT * FROM album"
+        return { sqlStatement };
     }
 
-    function removeAlbum() {
-        return "removeAlbum";
+    this.removeAlbum = function (albumId) {
+        var sqlStatement = "DELETE FROM album where id=" += albumId;
+        return { sqlStatement };
+
+
     }
 
-    function queryAlbum() {
-        return "queryAlbum";
+    this.queryAlbum = function (query) {
+        var sqlStatement = `SELECT * FROM album WHERE (artist_name LIKE %'${query}'% or album_name LIKE %'${query}'% or genre LIKE %'${query}'% )`;
+        return { sqlStatement };
     }
 }
 
