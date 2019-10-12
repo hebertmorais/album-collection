@@ -5,7 +5,7 @@ const router = express.Router();
 const AlbumServiceClass = require('../../services/album.js')
 const albumService = new AlbumServiceClass();
 
-router.get('/', function (req, res) {
+router.get('/', async (req, res, next) => {
     let response;
     var query = req.query.q;
     if (query) {
@@ -13,6 +13,14 @@ router.get('/', function (req, res) {
     } else {
         response = albumService.getAllAlbums();
     }
+
+    response.then(result => {
+        res.json(result);
+    });
+
+});
+router.get('/', function (req, res) {
+
 
     res.json(response);
 });

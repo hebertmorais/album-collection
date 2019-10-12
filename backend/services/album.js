@@ -10,8 +10,8 @@ module.exports = function () {
         return albumModel.editAlbum(id, album);
     }
 
-    this.getAllAlbums = function () {
-        return albumModel.getAllAlbums();
+    this.getAllAlbums = async function () {
+        return await albumModel.getAllAlbums();
     }
 
     this.removeAlbum = function (album) {

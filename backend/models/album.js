@@ -1,4 +1,5 @@
-//var db = require('../config/database');
+const mysql = require('mysql2/promise');
+const db = require('../config/database');
 
 module.exports = function () {
 
@@ -18,9 +19,16 @@ module.exports = function () {
         return { sqlStatement, values };
     }
 
-    this.getAllAlbums = function () {
-        var sqlStatement = "SELECT * FROM albums"
-        return { sqlStatement };
+    this.getAllAlbums = async function () {
+        var sqlStatement = 'SELECT artist_name, album_name, release_date, genre FROM albums';
+
+        const connection = await this.connect();
+
+        const result = await connection.execute(sqlStatement);
+
+        return result[0];
+
+
     }
 
     this.deleteAlbum = function (albumId) {
@@ -33,6 +41,17 @@ module.exports = function () {
     this.queryAlbum = function (query) {
         var sqlStatement = `SELECT * FROM albums WHERE (artist_name LIKE %'${query}'% or album_name LIKE %'${query}'% or genre LIKE %'${query}'% )`;
         return { sqlStatement };
+    }
+
+    this.connect = async function () {
+        const connection = await mysql.createConnection({
+            host: db.host,
+            user: db.user,
+            password: db.password,
+            database: db.database
+        });
+
+        return connection;
     }
 }
 
