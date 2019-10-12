@@ -23,7 +23,7 @@ module.exports = function () {
         return { sqlStatement };
     }
 
-    this.removeAlbum = function (albumId) {
+    this.deleteAlbum = function (albumId) {
         var sqlStatement = "DELETE FROM album where id=" += albumId;
         return { sqlStatement };
 

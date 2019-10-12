@@ -2,23 +2,28 @@ var AlbumModelClass = require('../models/album');
 var albumModel = new AlbumModelClass();
 
 module.exports = function () {
-    function addAlbum() {
-        return albumModel.addAlbum();
+    this.addAlbum = function (album) {
+        return albumModel.addAlbum(album);
     }
 
-    function editAlbum() {
-        return albumModel.editAlbum();
+    this.editAlbum = function (album) {
+
+        return albumModel.editAlbum(album);
     }
 
-     this.getAllAlbums = function () {
+    this.getAllAlbums = function () {
         return albumModel.getAllAlbums();
     }
 
-    function removeAlbum() {
+    this.removeAlbum = function (album) {
         return albumModel.removeAlbum();
     }
 
-    function queryAlbum() {
-        return albumModel.queryAlbum();
+    this.queryAlbum = function (query) {
+        return albumModel.queryAlbum(query);
+    }
+
+    this.deleteAlbum = function (album) {
+        return albumModel.deleteAlbum(album.id);
     }
 }
