@@ -27,17 +27,24 @@ router.get('/', async (req, res) => {
     }
 
     response.then(result => {
+        console.log("success");
         res.json(result);
+    }).catch(error => {
+        console.log("fail");
+
+        res.status(400).json({ error: error.toString() });
     });
 
 });
 
-router.post('/album', upload.single('artwork'), (req, res) => {
+router.post('/album', upload.single('image'), (req, res) => {
     let albumDTO = req;
     let response = albumService.addAlbum(albumDTO);
 
     response.then(result => {
         res.json(result);
+    }).catch(error => {
+        res.status(400);
     });
 });
 
@@ -48,6 +55,8 @@ router.put('/album/:id', (req, res) => {
 
     response.then(result => {
         res.json(result);
+    }).catch(error => {
+        res.status(400);
     });
 });
 
@@ -57,6 +66,8 @@ router.delete('/album/:id', function (req, res) {
 
     response.then(result => {
         res.json(result);
+    }).catch(error => {
+        res.status(400);
     });
 });
 
