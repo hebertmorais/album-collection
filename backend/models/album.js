@@ -93,7 +93,7 @@ module.exports = function () {
     }
 
     this.dbQuery = async function (sqlStatement, values) {
-        console.log(sqlStatement, values);
+        //console.log(sqlStatement, values);
         try {
             const connection = await this.connect();
             const result = await connection.execute(sqlStatement, values || []);

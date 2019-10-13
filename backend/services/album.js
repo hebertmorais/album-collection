@@ -11,7 +11,7 @@ module.exports = function () {
             throw validationError;
         } else {
             try {
-                const response = await albumModel.addAlbum(album);
+                const response = await albumModel.addAlbum(album, true);
                 return response;
             } catch (error) {
                 throw error;
@@ -20,18 +20,23 @@ module.exports = function () {
     }
 
     this.editAlbum = async function (id, album) {
-        try {
-            const response = albumModel.editAlbum(id, album);
-            return response;
-        } catch (error) {
-            throw error;
+        let validationError = this.validateFields(album, false);
+
+        if (Object.keys(validationError).length > 0) {
+            throw validationError;
+        } else {
+            try {
+                const response = albumModel.editAlbum(id, album);
+                return response;
+            } catch (error) {
+                throw error;
+            }
         }
     }
 
     this.getAllAlbums = async function () {
         try {
             const response = await albumModel.getAllAlbums();
-            console.log("response", response);
             return response;
         } catch (error) {
             throw error;
@@ -57,6 +62,9 @@ module.exports = function () {
     }
 
     this.deleteAlbum = async function (albumId) {
+        if (!albumId)
+            throw ({ id: "O id não pode ser vazio" })
+
         try {
             const response = await albumModel.deleteAlbum(albumId);
             return response;
@@ -65,16 +73,19 @@ module.exports = function () {
         }
     }
 
-    this.validateFields = function (album, edit) {
+    this.validateFields = function (album, inserting_album) {
         let error = {}
         let artist_name = album.body.artist_name;
         let album_name = album.body.album_name;
         let release_date = album.body.release_date;
         let genre = album.body.genre;
 
+        if (Object.keys(album.body).length == 0)
+            return { "empty_fields": "A requisição não contém parâmetros;" };
+
         let mandatory_message = "A string é obrigatória e não pode ser vazia;";
 
-        if (!edit) {
+        if (inserting_album) {
             if (!artist_name)
                 error["artist_name"] = mandatory_message;
             if (!album_name)
@@ -88,7 +99,6 @@ module.exports = function () {
         if (artist_name && !(artist_name.trim().length > 0 && artist_name.trim().length < 256)) {
             error["artist_name"] = "O tamanho da string deve ser maior que 0 e menor que 256";
         }
-        console.log("asuidhauiss");
 
         if (album_name && !(album_name.trim().length > 0 && album_name.trim().length < 256)) {
             error["album_name"] = "O tamanho da string deve ser maior que 0 e menor que 256";
@@ -99,8 +109,7 @@ module.exports = function () {
 
         let empty = "";
         let not_valid = "";
-        if (!release_date)
-            empty = "A data não pode ser vazia; "
+
         if (release_date && !utils.isValidDate(release_date))
             not_valid = "A data não parece ser válida";
         if (empty || not_valid)
