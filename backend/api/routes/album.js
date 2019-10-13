@@ -1,4 +1,16 @@
 var express = require('express');
+var multer = require('multer');
+const variables = require('../../config/variables');
+
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, `${variables.uploadsFolder}`)
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+});
+var upload = multer({ storage: storage });
 
 const router = express.Router();
 
@@ -20,8 +32,8 @@ router.get('/', async (req, res) => {
 
 });
 
-router.post('/album', (req, res) => {
-    let albumDTO = req.body;
+router.post('/album', upload.single('artwork'), (req, res) => {
+    let albumDTO = req;
     let response = albumService.addAlbum(albumDTO);
 
     response.then(result => {

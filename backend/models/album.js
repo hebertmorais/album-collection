@@ -1,15 +1,14 @@
 const mysql = require('mysql2/promise');
 const db = require('../config/database');
+const variables = require('../config/variables');
 
 module.exports = function () {
 
     this.addAlbum = async function (album) {
-        var sqlStatement = 'INSERT INTO albums(artist_name, album_name, release_date, genre) VALUES (?,?,?,?)';
-        var values = [album.artist_name, album.album_name, album.release_date, album.genre];
-
+        var sqlStatement = 'INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,?,?,?)';
+        var values = [album.body.artist_name, album.body.album_name, album.body.release_date, album.body.genre, `${variables.uploadsFolder}/${album.file.originalname}`];
         let query = await this.dbQuery(sqlStatement, values)
         return query[0];
-
     }
 
     this.editAlbum = async function (albumId, album) {
@@ -29,7 +28,7 @@ module.exports = function () {
     }
 
     this.getAllAlbums = async function () {
-        var sqlStatement = 'SELECT artist_name, album_name, release_date, genre FROM albums';
+        var sqlStatement = 'SELECT * FROM albums';
         let query = await this.dbQuery(sqlStatement)
         return query[0];
     }
