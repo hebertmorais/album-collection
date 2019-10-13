@@ -100,7 +100,7 @@ module.exports = function () {
             return result;
         }
         catch (error) {
-            throw ({ error: error });
+            throw ({ error: error.toString() });
         }
 
     }

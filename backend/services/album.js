@@ -3,26 +3,56 @@ var albumModel = new AlbumModelClass();
 
 module.exports = function () {
     this.addAlbum = async function (album) {
-        return albumModel.addAlbum(album);
+        try {
+            const response = await albumModel.addAlbum(album);
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 
     this.editAlbum = async function (id, album) {
-        return albumModel.editAlbum(id, album);
+        try {
+            const response = albumModel.editAlbum(id, album);
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 
     this.getAllAlbums = async function () {
-        return await albumModel.getAllAlbums();
+        try {
+            const response = await albumModel.getAllAlbums();
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 
     this.removeAlbum = async function (album) {
-        return albumModel.removeAlbum();
+        try {
+            const response = await albumModel.removeAlbum();
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 
     this.queryAlbum = async function (keyword) {
-        return albumModel.queryAlbum(keyword);
+        try {
+            const response = await albumModel.queryAlbum(keyword);
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 
     this.deleteAlbum = async function (albumId) {
-        return albumModel.deleteAlbum(albumId);
+        try {
+            const response = await albumModel.deleteAlbum(albumId);
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 }

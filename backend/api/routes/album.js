@@ -20,55 +20,53 @@ const albumService = new AlbumServiceClass();
 router.get('/', async (req, res) => {
     let response;
     var query = req.query.q;
-    if (query) {
-        response = albumService.queryAlbum(query);
-    } else {
-        response = albumService.getAllAlbums();
+
+    try {
+        if (query) {
+            response = albumService.queryAlbum(query);
+        } else {
+            response = albumService.getAllAlbums();
+        }
+        res.json(response);
+    } catch (error) {
+        res.status(400).json(error);
     }
-
-    response.then(result => {
-        console.log("success");
-        res.json(result);
-    }).catch(error => {
-        console.log("fail");
-
-        res.status(400).json({ error: error.toString() });
-    });
 
 });
 
-router.post('/album', upload.single('image'), (req, res) => {
+router.post('/album', upload.single('image'), async (req, res) => {
     let albumDTO = req;
-    let response = albumService.addAlbum(albumDTO);
 
-    response.then(result => {
-        res.json(result);
-    }).catch(error => {
-        res.status(400);
-    });
+    try {
+        const response = await albumService.addAlbum(albumDTO);
+        res.json(response);
+    } catch (error) {
+        res.status(400).json(error);
+    }
+
 });
 
 router.put('/album/:id', upload.single('image'), (req, res) => {
     let id = parseInt(req.params.id);
     let albumDTO = req;
-    let response = albumService.editAlbum(id, albumDTO);
 
-    response.then(result => {
-        res.json(result);
-    }).catch(error => {
-        res.status(400);
-    });
+    try {
+        const response = albumService.editAlbum(id, albumDTO);
+        res.json(response);
+    } catch (error) {
+        res.status(400).json(error);
+    }
 });
 
 router.delete('/album/:id', function (req, res) {
     let id = parseInt(req.params.id);
-    let response = albumService.deleteAlbum(id);
-
-    response.then(result => {
-        res.json(result);
-    }).catch(error => {
-        res.status(400);
-    });
+    
+    try {
+        const response = albumService.deleteAlbum(id);
+        res.json(response);
+    } catch (error) {
+        res.status(400).json(error);
+    }
 });
 
 module.exports = router;
