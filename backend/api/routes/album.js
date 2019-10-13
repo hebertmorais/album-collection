@@ -48,9 +48,9 @@ router.post('/album', upload.single('image'), (req, res) => {
     });
 });
 
-router.put('/album/:id', (req, res) => {
+router.put('/album/:id', upload.single('image'), (req, res) => {
     let id = parseInt(req.params.id);
-    let albumDTO = req.body;
+    let albumDTO = req;
     let response = albumService.editAlbum(id, albumDTO);
 
     response.then(result => {
