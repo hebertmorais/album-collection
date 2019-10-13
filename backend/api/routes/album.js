@@ -5,7 +5,7 @@ const router = express.Router();
 const AlbumServiceClass = require('../../services/album.js')
 const albumService = new AlbumServiceClass();
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     let response;
     var query = req.query.q;
     if (query) {
@@ -19,29 +19,33 @@ router.get('/', async (req, res, next) => {
     });
 
 });
-router.get('/', function (req, res) {
 
-
-    res.json(response);
-});
-
-router.post('/album', function (req, res) {
+router.post('/album', (req, res) => {
     let albumDTO = req.body;
     let response = albumService.addAlbum(albumDTO);
-    res.json(response);
+
+    response.then(result => {
+        res.json(result);
+    });
 });
 
-router.put('/album/:id', function (req, res) {
+router.put('/album/:id', (req, res) => {
     let id = parseInt(req.params.id);
     let albumDTO = req.body;
     let response = albumService.editAlbum(id, albumDTO);
-    res.json(response);
+
+    response.then(result => {
+        res.json(result);
+    });
 });
 
 router.delete('/album/:id', function (req, res) {
     let id = parseInt(req.params.id);
     let response = albumService.deleteAlbum(id);
-    res.json(response);
+
+    response.then(result => {
+        res.json(result);
+    });
 });
 
 module.exports = router;

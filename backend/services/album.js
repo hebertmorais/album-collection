@@ -2,11 +2,11 @@ var AlbumModelClass = require('../models/album');
 var albumModel = new AlbumModelClass();
 
 module.exports = function () {
-    this.addAlbum = function (album) {
+    this.addAlbum = async function (album) {
         return albumModel.addAlbum(album);
     }
 
-    this.editAlbum = function (id, album) {
+    this.editAlbum = async function (id, album) {
         return albumModel.editAlbum(id, album);
     }
 
@@ -14,15 +14,15 @@ module.exports = function () {
         return await albumModel.getAllAlbums();
     }
 
-    this.removeAlbum = function (album) {
+    this.removeAlbum = async function (album) {
         return albumModel.removeAlbum();
     }
 
-    this.queryAlbum = function (query) {
-        return albumModel.queryAlbum(query);
+    this.queryAlbum = async function (keyword) {
+        return albumModel.queryAlbum(keyword);
     }
 
-    this.deleteAlbum = function (albumId) {
+    this.deleteAlbum = async function (albumId) {
         return albumModel.deleteAlbum(albumId);
     }
 }

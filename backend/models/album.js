@@ -3,44 +3,49 @@ const db = require('../config/database');
 
 module.exports = function () {
 
-    this.addAlbum = function (album) {
-        var sqlStatement = "INSERT INTO albums(artist_name, album_name, release_date, genre) VALUES ?";
-        var values = [
-            [album.artist_name, album.album_name, album.release_date, album.genre]
-        ]
-        return { sqlStatement, values };
+    this.addAlbum = async function (album) {
+        var sqlStatement = 'INSERT INTO albums(artist_name, album_name, release_date, genre) VALUES (?,?,?,?)';
+        var values = [album.artist_name, album.album_name, album.release_date, album.genre];
+
+        let query = await this.dbQuery(sqlStatement, values)
+        return query[0];
+
     }
 
-    this.editAlbum = function (albumId, album) {
-        var sqlStatement = "UPDATE albums SET artist_name = ?, album_name = ?, release_date = ?, genre = ? where id = ?";
-        var values = [
-            [album.artist_name, album.album_name, album.release_date, album.genre, albumId]
-        ]
-        return { sqlStatement, values };
+    this.editAlbum = async function (albumId, album) {
+        let values = [];
+        let attributes = [];
+
+        for (let key of Object.keys(album)) {
+            attributes.push(`${key} = ?`);
+            values.push(album[key]);
+        }
+
+        values.push(albumId);
+
+        var sqlStatement = `UPDATE albums SET ${attributes.toString()} where id = ?`;
+        let query = await this.dbQuery(sqlStatement, values)
+        return query[0];
     }
 
     this.getAllAlbums = async function () {
         var sqlStatement = 'SELECT artist_name, album_name, release_date, genre FROM albums';
-
-        const connection = await this.connect();
-
-        const result = await connection.execute(sqlStatement);
-
-        return result[0];
-
-
+        let query = await this.dbQuery(sqlStatement)
+        return query[0];
     }
 
-    this.deleteAlbum = function (albumId) {
+    this.deleteAlbum = async function (albumId) {
         var sqlStatement = "DELETE FROM albums where id=" + albumId;
-        return { sqlStatement };
-
+        let query = await this.dbQuery(sqlStatement)
+        return query[0];
 
     }
 
-    this.queryAlbum = function (query) {
-        var sqlStatement = `SELECT * FROM albums WHERE (artist_name LIKE %'${query}'% or album_name LIKE %'${query}'% or genre LIKE %'${query}'% )`;
-        return { sqlStatement };
+    this.queryAlbum = async function (search) {
+        let keyword = '%' + search + '%';
+        var sqlStatement = `SELECT artist_name, album_name, release_date, genre FROM albums WHERE artist_name LIKE '${keyword}' or album_name LIKE '${keyword}' or genre LIKE '${keyword}'`;
+        let query = await this.dbQuery(sqlStatement)
+        return query[0];
     }
 
     this.connect = async function () {
@@ -52,6 +57,21 @@ module.exports = function () {
         });
 
         return connection;
+    }
+
+    this.dbQuery = async function (sqlStatement, values) {
+        console.log(sqlStatement, values);
+        try {
+            const connection = await this.connect();
+            const result = await connection.execute(sqlStatement, values || []);
+            return result;
+        }
+        catch (error) {
+            console.log(error);
+            return ({ error: error });
+
+        }
+
     }
 }
 
