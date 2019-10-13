@@ -1,14 +1,16 @@
 const mysql = require('mysql2/promise');
 const db = require('../config/database');
 const variables = require('../config/variables');
+var UtilClass = require('../utils/validation');
+const utils = new UtilClass();
 
 module.exports = function () {
     // multipart/form-data
     this.addAlbum = async function (album) {
         var sqlStatement = "INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,STR_TO_DATE(?,'%d/%m/%Y'),?,?)";
-        
+
         var values = [album.body.artist_name, album.body.album_name, album.body.release_date, album.body.genre, album.file ? `${variables.uploadsFolder}/${album.file.originalname}` : ''];
-        
+
         try {
             let query = await this.dbQuery(sqlStatement, values)
             return query[0];
@@ -24,7 +26,10 @@ module.exports = function () {
 
         for (let key of Object.keys(album.body)) {
             attributes.push(`${key} = ?`);
-            values.push(album.body[key]);
+            if (key == "release_date")
+                values.push(utils.formatDate(album.body[key]));
+
+            else values.push(album.body[key]);
         }
 
         if (album.file) {
@@ -36,7 +41,6 @@ module.exports = function () {
         values.push(albumId);
 
         var sqlStatement = `UPDATE albums SET ${attributes.toString()} where id = ?`;
-
         try {
             let query = await this.dbQuery(sqlStatement, values)
             return query[0];

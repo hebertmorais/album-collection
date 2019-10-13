@@ -5,4 +5,9 @@ module.exports = function () {
 
         return regex.test(dateString);
     };
+
+    this.formatDate = function (input) {
+        var date = input.split('/');
+        return date[2] + '-' + date[1] + '-' + date[0];
+    }
 }
