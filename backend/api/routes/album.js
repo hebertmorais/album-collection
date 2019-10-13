@@ -23,9 +23,9 @@ router.get('/', async (req, res) => {
 
     try {
         if (query) {
-            response = albumService.queryAlbum(query);
+            response = await albumService.queryAlbum(query);
         } else {
-            response = albumService.getAllAlbums();
+            response = await albumService.getAllAlbums();
         }
         res.json(response);
     } catch (error) {
@@ -46,23 +46,23 @@ router.post('/album', upload.single('image'), async (req, res) => {
 
 });
 
-router.put('/album/:id', upload.single('image'), (req, res) => {
+router.put('/album/:id', upload.single('image'), async (req, res) => {
     let id = parseInt(req.params.id);
     let albumDTO = req;
 
     try {
-        const response = albumService.editAlbum(id, albumDTO);
+        const response = await albumService.editAlbum(id, albumDTO);
         res.json(response);
     } catch (error) {
         res.status(400).json(error);
     }
 });
 
-router.delete('/album/:id', function (req, res) {
+router.delete('/album/:id', async (req, res) => {
     let id = parseInt(req.params.id);
-    
+
     try {
-        const response = albumService.deleteAlbum(id);
+        const response = await albumService.deleteAlbum(id);
         res.json(response);
     } catch (error) {
         res.status(400).json(error);

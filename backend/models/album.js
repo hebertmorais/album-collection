@@ -5,7 +5,7 @@ const variables = require('../config/variables');
 module.exports = function () {
     // multipart/form-data
     this.addAlbum = async function (album) {
-        var sqlStatement = 'INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,?,?,?)';
+        var sqlStatement = "INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,STR_TO_DATE(?,'%d/%m/%Y'),?,?)";
         
         var values = [album.body.artist_name, album.body.album_name, album.body.release_date, album.body.genre, album.file ? `${variables.uploadsFolder}/${album.file.originalname}` : ''];
         
