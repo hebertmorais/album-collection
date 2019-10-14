@@ -3,6 +3,6 @@ export class Album {
     album_name: string;
     artist_name: string;
     genre: string;
-    release_date: Date;
+    release_date: string;
     artwork: string;
 }
