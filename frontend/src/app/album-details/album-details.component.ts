@@ -26,7 +26,10 @@ export class AlbumDetailsComponent implements OnInit {
   }
 
   delete() {
-
+    console.log("delete");
+    this.albumService.deleteAlbum(this.album.id).subscribe((data: any) => {
+      alert("deletado");
+    });
   }
 
 }

@@ -32,7 +32,12 @@ export class AlbumService {
     return this.http.put<Album>(`${Network.apiUrl}/album/${album.id}`, album).pipe(
       catchError(this.errorHandler)
     );
+  }
 
+  deleteAlbum(albumId: number) {
+    return this.http.delete<Album>(`${Network.apiUrl}/album/${albumId}`, {}).pipe(
+      catchError(this.errorHandler)
+    );
   }
 
   errorHandler(error) {
