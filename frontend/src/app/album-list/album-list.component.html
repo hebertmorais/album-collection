@@ -3,7 +3,7 @@
 </label>
 <p *ngIf="waiting">Carregando...</p>
 <div *ngIf="!waiting">
-  <p *ngFor="let album of albums">
+  <p (click)="openAlbum(album)" *ngFor="let album of albums">
     {{album.album_name}}
   </p>
   <p *ngIf="!albums.length">

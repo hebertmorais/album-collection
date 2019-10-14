@@ -12,6 +12,8 @@ import { Album } from '../models/album.model';
 })
 export class AlbumService {
 
+  public currentAlbum: Album;
+
   constructor(private http: HttpClient) { }
 
   getAllAlbums() {

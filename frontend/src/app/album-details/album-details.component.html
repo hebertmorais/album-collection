@@ -1,3 +1,4 @@
-<p>
-  album-details works!
-</p>
+<img *ngIf="album.artwork" src="{{album.artwork}}" />
+<h1>{{album?.album_name}}</h1>
+<h2>{{album?.artist_name}} <span>{{album?.genre}}</span></h2>
+<p>{{album?.release_date}}</p>

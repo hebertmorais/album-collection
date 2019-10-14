@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AlbumService } from '../service/album.service';
 import { Album } from '../models/album.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-album-list',
@@ -13,7 +14,7 @@ export class AlbumListComponent implements OnInit {
   keyword = '';
   waiting = false;
 
-  constructor(public albumService: AlbumService) { }
+  constructor(public albumService: AlbumService, private router: Router, private ngZone: NgZone) { }
 
   ngOnInit() {
     this.loadAlbums();
@@ -38,6 +39,11 @@ export class AlbumListComponent implements OnInit {
         this.waiting = false;
       });
     }, 1200);
+  }
+
+  openAlbum(album: Album) {
+    this.albumService.currentAlbum = album;
+    this.ngZone.run(() => this.router.navigate(['/album-details']));
   }
 
 }
