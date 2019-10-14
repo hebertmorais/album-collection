@@ -79,9 +79,9 @@ module.exports = function () {
         let album_name = album.body.album_name;
         let release_date = album.body.release_date;
         let genre = album.body.genre;
-
-        if (Object.keys(album.body).length == 0)
+        if (Object.keys(album.body).length == 0 && album.file == null){
             return { "empty_fields": "A requisição não contém parâmetros;" };
+        }
 
         let mandatory_message = "A string é obrigatória e não pode ser vazia;";
 
