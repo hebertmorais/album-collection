@@ -4,12 +4,13 @@ const variables = require('../config/variables');
 var UtilClass = require('../utils/validation');
 const utils = new UtilClass();
 
+let serverUrl = `${variables.protocol}://${variables.hostname}:${variables.port}/`;
 module.exports = function () {
     // multipart/form-data
     this.addAlbum = async function (album) {
         var sqlStatement = "INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,STR_TO_DATE(?,'%d/%m/%Y'),?,?)";
 
-        var values = [album.body.artist_name, album.body.album_name, album.body.release_date, album.body.genre, album.file ? `${variables.uploadsFolder}/${album.file.originalname}` : ''];
+        var values = [album.body.artist_name, album.body.album_name, album.body.release_date, album.body.genre, album.file ? `${serverUrl}${variables.uploadsFolder}/${album.file.originalname}` : ''];
 
         try {
             let query = await this.dbQuery(sqlStatement, values)
@@ -33,7 +34,7 @@ module.exports = function () {
         }
 
         if (album.file) {
-            let imageUrl = `${variables.uploadsFolder}/${album.file.originalname}`;
+            let imageUrl = `${serverUrl}${variables.uploadsFolder}/${album.file.originalname}`;
             attributes.push(`artwork = ?`);
             values.push(imageUrl);
         }
