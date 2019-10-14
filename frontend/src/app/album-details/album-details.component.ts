@@ -18,4 +18,15 @@ export class AlbumDetailsComponent implements OnInit {
     this.album = this.albumService.currentAlbum;
   }
 
+  edit() {
+    console.log("edit");
+    this.albumService.editAlbum(this.album).subscribe((data: any) => {
+      alert("editado");
+    });
+  }
+
+  delete() {
+
+  }
+
 }

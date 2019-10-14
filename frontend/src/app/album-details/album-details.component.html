@@ -1,4 +1,12 @@
-<img *ngIf="album.artwork" src="{{album.artwork}}" />
+<img *ngIf="album?.artwork" src="{{album.artwork}}" />
 <h1>{{album?.album_name}}</h1>
 <h2>{{album?.artist_name}} <span>{{album?.genre}}</span></h2>
 <p>{{album?.release_date}}</p>
+
+<input [(ngModel)]="album.album_name" placeholder="Nome do album" /><br>
+<input [(ngModel)]="album.artist_name" placeholder="Nome do artista" /><br>
+<input [(ngModel)]="album.genre" placeholder="Nome do genero" /><br>
+<input [(ngModel)]="album.release_date" placeholder="Data de lancamento" /><br>
+
+<button (click)="edit()">Salvar</button>
+<button (click)= "delete()">Apagar</button>

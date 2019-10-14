@@ -27,11 +27,13 @@ export class AlbumService {
       catchError(this.errorHandler)
     );
   }
-  /*
-  addAlbum(album: Album) {
-      return this.http.post(`${NETWORK.apiUrl}/album`)
-          .map((res: Response) => res.json().response);
-  }*/
+
+  editAlbum(album: Album) {
+    return this.http.put<Album>(`${Network.apiUrl}/album/${album.id}`, album).pipe(
+      catchError(this.errorHandler)
+    );
+
+  }
 
   errorHandler(error) {
     let errorMessage = '';
