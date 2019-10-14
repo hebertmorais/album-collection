@@ -1,3 +1,12 @@
-<p *ngFor="let album of albums">
-{{album.album_name}}
-</p>
+<label>pesquisar:
+  <input [(ngModel)]="keyword" (input)="queryAlbums()" placeholder="Pesquise por nome, artista ou gênero." />
+</label>
+<p *ngIf="waiting">Carregando...</p>
+<div *ngIf="!waiting">
+  <p *ngFor="let album of albums">
+    {{album.album_name}}
+  </p>
+  <p *ngIf="!albums.length">
+    Nenhum disco foi encontrado.<span *ngIf="!keyword"> Que adicionar um  novo no botão +?</span>
+  </p>
+</div>

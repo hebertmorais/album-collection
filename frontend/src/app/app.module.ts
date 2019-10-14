@@ -7,6 +7,7 @@ import { AlbumListComponent } from './album-list/album-list.component';
 import { AlbumDetailsComponent } from './album-details/album-details.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AlbumService } from './service/album.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AlbumService } from './service/album.service';
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [AlbumService],
   bootstrap: [AppComponent]

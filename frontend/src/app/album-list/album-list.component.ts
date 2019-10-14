@@ -10,6 +10,8 @@ import { Album } from '../models/album.model';
 export class AlbumListComponent implements OnInit {
 
   albums: Album[] = [];
+  keyword = '';
+  waiting = false;
 
   constructor(public albumService: AlbumService) { }
 
@@ -18,10 +20,24 @@ export class AlbumListComponent implements OnInit {
   }
 
   loadAlbums() {
+    this.waiting = true;
     this.albumService.getAllAlbums().subscribe((data: any) => {
       console.log(data);
       this.albums = data;
+      this.waiting = false;
     });
+  }
+
+  queryAlbums() {
+    setTimeout(() => {
+      this.waiting = true;
+
+      this.albumService.queryAlbums(this.keyword).subscribe((data: any) => {
+        console.log(data);
+        this.albums = data;
+        this.waiting = false;
+      });
+    }, 1200);
   }
 
 }

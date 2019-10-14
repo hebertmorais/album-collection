@@ -20,10 +20,12 @@ export class AlbumService {
     );
   }
 
-  /* query(keyword: string) {
-      return this.http.get(`${NETWORK.apiUrl}/?q=${keyword}`)
-          .map((res: Response) => res.json().response);
+  queryAlbums(keyword: string) {
+    return this.http.get<Album>(`${Network.apiUrl}/?q=${keyword}`).pipe(
+      catchError(this.errorHandler)
+    );
   }
+  /*
   addAlbum(album: Album) {
       return this.http.post(`${NETWORK.apiUrl}/album`)
           .map((res: Response) => res.json().response);
