@@ -1,13 +1,32 @@
-<label>pesquisar:
-  <input [(ngModel)]="keyword" (input)="queryAlbums()" placeholder="Pesquise por nome, artista ou gênero." />
-</label>
-<p *ngIf="waiting">Carregando...</p>
-<div *ngIf="!waiting">
-  <p (click)="openAlbum(album)" *ngFor="let album of albums">
-    {{album.album_name}}
-  </p>
-  <p *ngIf="!albums.length">
-    Nenhum disco foi encontrado.<span *ngIf="!keyword"> Que adicionar um  novo no botão +?</span>
-  </p>
+<div class="toolbar-search">
+  <input [(ngModel)]="keyword" (input)="query()" placeholder="Pesquise por nome, artista ou gênero." />
 </div>
-<button (click)="addAlbum()">Adicionar Disco</button>
+<div class="main">
+  <p class="loading" *ngIf="waiting">Carregando...</p>
+  <h1 *ngIf="!waiting && isHome && !keyword" style="text-align: center; color: white">Sua Coleção de Discos</h1>
+  <h1 *ngIf="!waiting && keyword" style="text-align: center; color: white">Resultado da pesquisa:</h1>
+
+  <div class="frame-container" *ngIf="!waiting">
+    <div class="album-frame" (click)="openAlbum(album)" *ngFor="let album of albums">
+      <div class="album-frame-background">
+        <img *ngIf="album.artwork" src="{{album.artwork}}" />
+        <img *ngIf="!album.artwork" src="../../assets/img/album-placeholder.png" />
+
+        <div class="data"><a class="album_title">
+            {{album.album_name}}
+          </a>
+          <p class="artist_name">{{album.artist_name}} <span>• {{album.genre}}</span></p>
+          <p class="release_date">Lançado em {{getDate(album.release_date)}}</p>
+        </div>
+      </div>
+    </div>
+      <p class="empty && !waiting" *ngIf="!albums.length">
+        Nenhum disco foi encontrado. Que tal pesquisar por uma nova palavra-chave? <span *ngIf="isHome"> Vamos adicionar um novo disco no botão +?</span>
+      </p>
+      <p style="text-decoration: underline; text-align: center; cursor: pointer;" (click)="clearSearch()" class="empty" *ngIf="!isHome">
+        volte para o início
+        </p>
+      <button class="add-button" (click)="addAlbum()">+</button>
+
+    </div>
+  </div>

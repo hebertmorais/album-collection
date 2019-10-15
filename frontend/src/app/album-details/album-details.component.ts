@@ -62,7 +62,7 @@ export class AlbumDetailsComponent implements OnInit {
     this.preview(this.fileToUpload);
   }
 
-  preview(file): string {
+  preview(file) {
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
