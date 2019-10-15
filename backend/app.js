@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 const variables = require("./config/variables");
 
@@ -12,6 +13,10 @@ app.use(function (req, res, next) {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+if (!fs.existsSync(`./${variables.uploadsFolder}`)){
+    fs.mkdirSync(`./${variables.uploadsFolder}`);
+}
 app.use(`/${variables.uploadsFolder}`, express.static(`${variables.uploadsFolder}`));
 
 require('./api/index.js')(app);
