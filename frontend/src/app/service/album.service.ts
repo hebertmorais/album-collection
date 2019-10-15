@@ -28,6 +28,12 @@ export class AlbumService {
     );
   }
 
+  addAlbum(album: Album) {
+    return this.http.post<Album>(`${Network.apiUrl}/album/`, album).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
   editAlbum(album: Album) {
     return this.http.put<Album>(`${Network.apiUrl}/album/${album.id}`, album).pipe(
       catchError(this.errorHandler)

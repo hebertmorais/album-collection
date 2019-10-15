@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../service/album.service';
 import { Album } from '../models/album.model';
-import { Network } from '../config/global.config';
 
 @Component({
   selector: 'app-album-details',
@@ -11,18 +10,34 @@ import { Network } from '../config/global.config';
 export class AlbumDetailsComponent implements OnInit {
 
   album: Album;
+  create: boolean;
 
   constructor(private albumService: AlbumService) { }
 
   ngOnInit() {
-    this.album = this.albumService.currentAlbum;
+    this.album = this.albumService.currentAlbum || new Album();
+    if (!this.album.album_name) {
+      this.create = true;
+    }
   }
 
-  edit() {
-    console.log("edit");
-    this.albumService.editAlbum(this.album).subscribe((data: any) => {
-      alert("editado");
-    });
+  save() {
+    if (!this.create) {
+      console.log("edit");
+
+      this.albumService.editAlbum(this.album).subscribe((data: any) => {
+        alert("editado");
+      });
+    } else {
+      console.log("create");
+
+      this.albumService.addAlbum(this.album).subscribe((data: any) => {
+        this.create = false;
+        console.log(data);
+        this.album.id = data.insertId;
+        alert("criado");
+      });
+    }
   }
 
   delete() {

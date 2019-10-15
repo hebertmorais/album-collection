@@ -8,5 +8,5 @@
 <input [(ngModel)]="album.genre" placeholder="Nome do genero" /><br>
 <input [(ngModel)]="album.release_date" placeholder="Data de lancamento" /><br>
 
-<button (click)="edit()">Salvar</button>
-<button (click)= "delete()">Apagar</button>
+<button (click)="save()">Salvar</button>
+<button *ngIf="!create" (click)= "delete()">Apagar</button>
