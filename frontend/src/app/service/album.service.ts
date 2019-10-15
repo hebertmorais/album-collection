@@ -28,14 +28,32 @@ export class AlbumService {
     );
   }
 
-  addAlbum(album: Album) {
-    return this.http.post<Album>(`${Network.apiUrl}/album/`, album).pipe(
+  addAlbum(album: Album, image: File) {
+    const formData: FormData = new FormData();
+
+    if (image) { formData.append('image', image, image.name); }
+
+    // tslint:disable-next-line:forin
+    for (const key of Object.keys(album)) {
+      formData.append(key, album[key]);
+    }
+
+    return this.http.post<Album>(`${Network.apiUrl}/album/`, formData).pipe(
       catchError(this.errorHandler)
     );
   }
 
-  editAlbum(album: Album) {
-    return this.http.put<Album>(`${Network.apiUrl}/album/${album.id}`, album).pipe(
+  editAlbum(album: Album, image: File) {
+    const formData: FormData = new FormData();
+
+    if (image) { formData.append('image', image, image.name); }
+
+    // tslint:disable-next-line:forin
+    for (const key of Object.keys(album)) {
+      formData.append(key, album[key]);
+    }
+
+    return this.http.put<Album>(`${Network.apiUrl}/album/${album.id}`, formData).pipe(
       catchError(this.errorHandler)
     );
   }

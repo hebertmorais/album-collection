@@ -11,6 +11,9 @@ export class AlbumDetailsComponent implements OnInit {
 
   album: Album;
   create: boolean;
+  albumImage: any;
+  fileToUpload: File = null;
+
 
   constructor(private albumService: AlbumService) { }
 
@@ -19,19 +22,20 @@ export class AlbumDetailsComponent implements OnInit {
     if (!this.album.album_name) {
       this.create = true;
     }
+    this.albumImage = this.album.artwork;
   }
 
   save() {
     if (!this.create) {
       console.log("edit");
 
-      this.albumService.editAlbum(this.album).subscribe((data: any) => {
+      this.albumService.editAlbum(this.album, this.fileToUpload).subscribe((data: any) => {
         alert("editado");
       });
     } else {
       console.log("create");
 
-      this.albumService.addAlbum(this.album).subscribe((data: any) => {
+      this.albumService.addAlbum(this.album, this.fileToUpload).subscribe((data: any) => {
         this.create = false;
         console.log(data);
         this.album.id = data.insertId;
@@ -45,6 +49,25 @@ export class AlbumDetailsComponent implements OnInit {
     this.albumService.deleteAlbum(this.album.id).subscribe((data: any) => {
       alert("deletado");
     });
+  }
+
+  removeImage() {
+    this.albumImage = '';
+    this.fileToUpload = null;
+  }
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+    this.preview(this.fileToUpload);
+  }
+
+  preview(file): string {
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (_event) => {
+      this.albumImage = reader.result;
+    };
   }
 
 }

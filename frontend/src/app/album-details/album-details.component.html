@@ -1,7 +1,6 @@
-<img *ngIf="album?.artwork" src="{{album.artwork}}" />
-<h1>{{album?.album_name}}</h1>
-<h2>{{album?.artist_name}} <span>{{album?.genre}}</span></h2>
-<p>{{album?.release_date}}</p>
+<img *ngIf="albumImage" src="{{albumImage}}" /><br>
+<input type="file" id="image" accept="image/*" (change)="handleFileInput($event.target.files)"><br>
+<button *ngIf="albumImage" (click)="removeImage()">Remover Imagem</button>
 
 <input [(ngModel)]="album.album_name" placeholder="Nome do album" /><br>
 <input [(ngModel)]="album.artist_name" placeholder="Nome do artista" /><br>
@@ -9,4 +8,4 @@
 <input [(ngModel)]="album.release_date" placeholder="Data de lancamento" /><br>
 
 <button (click)="save()">Salvar</button>
-<button *ngIf="!create" (click)= "delete()">Apagar</button>
+<button *ngIf="!create" (click)="delete()">Apagar</button>
