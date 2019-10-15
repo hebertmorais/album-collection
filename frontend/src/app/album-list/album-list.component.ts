@@ -58,6 +58,7 @@ export class AlbumListComponent implements OnInit {
   }
 
   addAlbum() {
+    this.albumService.currentAlbum = new Album();
     this.ngZone.run(() => this.router.navigate(['/album-details']));
   }
   clearSearch() {
