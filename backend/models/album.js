@@ -8,7 +8,7 @@ let serverUrl = `${variables.protocol}://${variables.hostname}:${variables.port}
 module.exports = function () {
     // multipart/form-data
     this.addAlbum = async function (album) {
-        var sqlStatement = "INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,STR_TO_DATE(?,'%d/%m/%Y'),?,?)";
+        var sqlStatement = "INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,?,?,?)";
 
         var values = [album.body.artist_name, album.body.album_name, album.body.release_date, album.body.genre, album.file ? `${serverUrl}${variables.uploadsFolder}/${album.file.originalname}` : ''];
 
@@ -59,7 +59,7 @@ module.exports = function () {
     }
 
     this.getAllAlbums = async function () {
-        var sqlStatement = 'SELECT * FROM albums';
+        var sqlStatement = 'SELECT * FROM albums ORDER BY album_name';
 
         try {
             let query = await this.dbQuery(sqlStatement)
@@ -85,7 +85,7 @@ module.exports = function () {
     this.queryAlbum = async function (search) {
         let keyword = '%' + search + '%';
 
-        var sqlStatement = `SELECT artist_name, album_name, release_date, genre FROM albums WHERE artist_name LIKE '${keyword}' or album_name LIKE '${keyword}' or genre LIKE '${keyword}'`;
+        var sqlStatement = `SELECT artist_name, album_name, release_date, genre FROM albums WHERE artist_name LIKE '${keyword}' or album_name LIKE '${keyword}' or genre LIKE '${keyword}' ORDER BY album_name`;
         try {
             let query = await this.dbQuery(sqlStatement)
             return query[0];
