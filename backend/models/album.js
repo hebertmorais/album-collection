@@ -26,6 +26,9 @@ module.exports = function () {
         let attributes = [];
 
         for (let key of Object.keys(album.body)) {
+            if (key == "artwork" || key == "id")
+                continue;
+
             attributes.push(`${key} = ?`);
             if (key == "release_date")
                 values.push(utils.formatDate(album.body[key]));
@@ -37,6 +40,11 @@ module.exports = function () {
             let imageUrl = `${serverUrl}${variables.uploadsFolder}/${album.file.originalname}`;
             attributes.push(`artwork = ?`);
             values.push(imageUrl);
+        }
+
+        if (album.body.artwork == "delete") {
+            attributes.push(`artwork = ?`);
+            values.push('');
         }
 
         values.push(albumId);
@@ -98,7 +106,7 @@ module.exports = function () {
     }
 
     this.dbQuery = async function (sqlStatement, values) {
-        //console.log(sqlStatement, values);
+        console.log(sqlStatement, values);
         try {
             const connection = await this.connect();
             const result = await connection.execute(sqlStatement, values || []);

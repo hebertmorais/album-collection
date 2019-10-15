@@ -29,6 +29,7 @@ router.get('/', async (req, res) => {
         }
         res.json(response);
     } catch (error) {
+        console.log(error);
         res.status(400).json(error);
     }
 
@@ -41,6 +42,7 @@ router.post('/album', upload.single('image'), async (req, res) => {
         const response = await albumService.addAlbum(albumDTO);
         res.json(response);
     } catch (error) {
+        console.log(error);
         res.status(400).json(error);
     }
 
@@ -54,6 +56,7 @@ router.put('/album/:id', upload.single('image'), async (req, res) => {
         const response = await albumService.editAlbum(id, albumDTO);
         res.json(response);
     } catch (error) {
+        console.log(error);
         res.status(400).json(error);
     }
 });
@@ -65,6 +68,7 @@ router.delete('/album/:id', async (req, res) => {
         const response = await albumService.deleteAlbum(id);
         res.json(response);
     } catch (error) {
+        console.log(error);
         res.status(400).json(error);
     }
 });
