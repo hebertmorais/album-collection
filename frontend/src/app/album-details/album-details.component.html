@@ -1,11 +1,39 @@
-<img *ngIf="albumImage" src="{{albumImage}}" /><br>
-<input type="file" id="image" accept="image/*" (change)="handleFileInput($event.target.files)"><br>
-<button *ngIf="albumImage" (click)="removeImage()">Remover Imagem</button>
+<div class="main">
+    <p class="loading" *ngIf="waiting">Carregando...</p>
+    <div class="frame-container">
+        <a href="/" style="text-decoration: underline; text-align: center; cursor: pointer; width: 100%" class="empty">
+            volte para o início
+        </a>
+        <div class="album-frame">
+            <div class="album-frame-background">
+                <img *ngIf="albumImage" src="{{albumImage}}" />
+                <img *ngIf="!albumImage" src="../../assets/img/album-placeholder.png" />
 
-<input [(ngModel)]="album.album_name" placeholder="Nome do album" /><br>
-<input [(ngModel)]="album.artist_name" placeholder="Nome do artista" /><br>
-<input [(ngModel)]="album.genre" placeholder="Nome do genero" /><br>
-<input [(ngModel)]="album.release_date" placeholder="Data de lancamento" /><br>
+                <label>Envio da capa do album (opcional)</label><br>
 
-<button (click)="save()">Salvar</button>
-<button *ngIf="!create" (click)="delete()">Apagar</button>
+                <input class="image-picker" type="file" id="image" accept="image/*"
+                    (change)="handleFileInput($event.target.files)"><br>
+                <button *ngIf="albumImage" (click)="removeImage()">Remover Imagem</button><br>
+                <label>Título do disco</label>
+                <input class="album-input" [(ngModel)]="album.album_name" placeholder="Por ex: Californication" /><br>
+                <label>Artista</label>
+
+                <input class="album-input" [(ngModel)]="album.artist_name"
+                    placeholder="Por ex: Red Hot Chili Peppers" /><br>
+                <label>Gênero</label>
+
+                <input class="album-input" [(ngModel)]="album.genre" placeholder="Por ex: Rock Alternativo" /><br>
+                <label>Data de lançamento (dd/mm/aaaa)</label>
+
+                <input type="date" class="album-input" [ngModel]="album.release_date | date:'yyyy-MM-dd'"
+                    (ngModelChange)="album.release_date = $event">
+                <br>
+
+                <button class="save-button" (click)="save()">Salvar</button>
+                <button class="delete-button" *ngIf="!create" (click)="delete()">Apagar</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>

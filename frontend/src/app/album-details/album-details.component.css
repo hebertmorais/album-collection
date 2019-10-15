@@ -1,0 +1,89 @@
+label{
+    color: #a8aaa6;
+    font-size: 12px;
+}
+
+.main {
+    min-height: 100vh;
+    padding: 16px;
+    background: black;
+    background-image: linear-gradient(to right bottom, rgb(82, 71, 79), rgb(0, 0, 0)), linear-gradient(transparent, rgb(0, 0, 0) 70%);
+}
+
+
+.frame-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.album-frame img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    margin: 0 auto;
+
+}
+
+.album-frame {
+    margin: 5px;
+}
+
+.album-frame-background {
+    padding: 20px 20px 16px;
+    background: rgba(40, 40, 40, .7);
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+
+
+.loading,
+.empty {
+    text-align: center;
+    color: white
+}
+
+.album-input {
+    height: 50px;
+    width: 90%;
+    background: #282828;
+    border: 0;
+    color: #969991;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 5px 20px;
+    box-shadow: 0px 0px 8px #0000003b;
+}
+
+.album-input::placeholder {
+    color: #535353;
+}
+
+.image-picker{
+    color: white;
+    text-align: center
+}
+
+.save-button, .delete-button {
+    font-size: 14px;
+    width: 120px;
+    border-radius: 500px;
+    padding: 12px 20px;
+    float: inherit;
+    margin: 0 auto;
+    position: relative;
+    display: block;
+    background: #1ED760;
+    border: 0;
+    color: white;
+    font-weight: 100;
+    text-transform: uppercase;
+    top: 8px;
+}
+
+.delete-button{
+    background: red;
+}

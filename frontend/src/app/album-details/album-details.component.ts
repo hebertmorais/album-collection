@@ -23,31 +23,45 @@ export class AlbumDetailsComponent implements OnInit {
       this.create = true;
     }
     this.albumImage = this.album.artwork;
+
+    this.normalizeDate();
+    console.log('date', this.album.release_date);
   }
 
   save() {
+    console.log('save date', this.album.release_date);
+
+    //this.normalizeDate();
+    let error;
     if (!this.create) {
       console.log("edit");
 
       this.albumService.editAlbum(this.album, this.fileToUpload).subscribe((data: any) => {
-        alert("editado");
+        alert("Seu disco foi editado com sucesso");
       });
     } else {
       console.log("create");
+      if (!this.album.album_name.trim() || !this.album.artist_name.trim() || !this.album.genre.trim() || !this.album.release_date.trim()) {
+        error = true;
+        alert('Todos os campos são necessários');
 
-      this.albumService.addAlbum(this.album, this.fileToUpload).subscribe((data: any) => {
-        this.create = false;
-        console.log(data);
-        this.album.id = data.insertId;
-        alert("criado");
-      });
+      }
+      if (!error) {
+        this.albumService.addAlbum(this.album, this.fileToUpload).subscribe((data: any) => {
+          this.create = false;
+          console.log(data);
+          this.album.id = data.insertId;
+          alert("Seu disco foi criado com sucesso.");
+        });
+      }
     }
   }
 
   delete() {
     console.log("delete");
     this.albumService.deleteAlbum(this.album.id).subscribe((data: any) => {
-      alert("deletado");
+      alert("Seu disco foi deletado com sucesso");
+      window.location.href = '/';
     });
   }
 
@@ -70,5 +84,11 @@ export class AlbumDetailsComponent implements OnInit {
       this.albumImage = reader.result;
     };
   }
+
+  normalizeDate() {
+    if (this.album.release_date)
+      this.album.release_date = new Date(this.album.release_date).toISOString().split('T')[0];
+  }
+
 
 }
