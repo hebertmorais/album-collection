@@ -41,7 +41,7 @@ export class AlbumDetailsComponent implements OnInit {
       });
     } else {
       console.log("create");
-      if (!this.album.album_name.trim() || !this.album.artist_name.trim() || !this.album.genre.trim() || !this.album.release_date.trim()) {
+      if (!this.album.album_name.trim() || !this.album.artist_name.trim() || !this.album.genre.trim() || !this.album.release_date) {
         error = true;
         alert('Todos os campos são necessários');
 
