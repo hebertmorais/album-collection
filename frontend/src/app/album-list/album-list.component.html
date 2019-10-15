@@ -20,13 +20,16 @@
         </div>
       </div>
     </div>
-      <p class="empty && !waiting" *ngIf="!albums.length">
-        Nenhum disco foi encontrado. Que tal pesquisar por uma nova palavra-chave? <span *ngIf="isHome"> Vamos adicionar um novo disco no botão +?</span>
-      </p>
-      <p style="text-decoration: underline; text-align: center; cursor: pointer;" (click)="clearSearch()" class="empty" *ngIf="!isHome">
-        volte para o início
-        </p>
-      <button class="add-button" (click)="addAlbum()">+</button>
 
-    </div>
+    <p style="text-decoration: underline; text-align: center; cursor: pointer;" (click)="clearSearch()" class="empty"
+      *ngIf="!isHome">
+      volte para o início
+    </p>
+    <button class="add-button" (click)="addAlbum()">+</button>
+
   </div>
+  <p class="empty" *ngIf="!albums.length && !isHome && !waiting">
+    Nenhum disco foi encontrado. Que tal pesquisar por uma nova palavra-chave?
+  </p>
+  <p class="empty" *ngIf="!albums.length && isHome && !waiting"> Você ainda não adicionou nenhum disco. Que tal adicionar um novo no botão + no canto inferior direito?</p>
+</div>
