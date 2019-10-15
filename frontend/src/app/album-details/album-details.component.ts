@@ -54,6 +54,7 @@ export class AlbumDetailsComponent implements OnInit {
   removeImage() {
     this.albumImage = '';
     this.fileToUpload = null;
+    this.album.artwork = 'delete';
   }
 
   handleFileInput(files: FileList) {
