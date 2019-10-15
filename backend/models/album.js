@@ -4,12 +4,13 @@ const variables = require('../config/variables');
 var UtilClass = require('../utils/validation');
 const utils = new UtilClass();
 
+let serverUrl = `${variables.protocol}://${variables.hostname}:${variables.port}/`;
 module.exports = function () {
     // multipart/form-data
     this.addAlbum = async function (album) {
-        var sqlStatement = "INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,STR_TO_DATE(?,'%d/%m/%Y'),?,?)";
+        var sqlStatement = "INSERT INTO albums(artist_name, album_name, release_date, genre, artwork) VALUES (?,?,?,?,?)";
 
-        var values = [album.body.artist_name, album.body.album_name, album.body.release_date, album.body.genre, album.file ? `${variables.uploadsFolder}/${album.file.originalname}` : ''];
+        var values = [album.body.artist_name, album.body.album_name, album.body.release_date, album.body.genre, album.file ? `${serverUrl}${variables.uploadsFolder}/${album.file.originalname}` : ''];
 
         try {
             let query = await this.dbQuery(sqlStatement, values)
@@ -25,6 +26,9 @@ module.exports = function () {
         let attributes = [];
 
         for (let key of Object.keys(album.body)) {
+            if (key == "artwork" || key == "id")
+                continue;
+
             attributes.push(`${key} = ?`);
             if (key == "release_date")
                 values.push(utils.formatDate(album.body[key]));
@@ -33,9 +37,14 @@ module.exports = function () {
         }
 
         if (album.file) {
-            let imageUrl = `${variables.uploadsFolder}/${album.file.originalname}`;
+            let imageUrl = `${serverUrl}${variables.uploadsFolder}/${album.file.originalname}`;
             attributes.push(`artwork = ?`);
             values.push(imageUrl);
+        }
+
+        if (album.body.artwork == "delete") {
+            attributes.push(`artwork = ?`);
+            values.push('');
         }
 
         values.push(albumId);
@@ -50,7 +59,7 @@ module.exports = function () {
     }
 
     this.getAllAlbums = async function () {
-        var sqlStatement = 'SELECT * FROM albums';
+        var sqlStatement = 'SELECT * FROM albums ORDER BY album_name';
 
         try {
             let query = await this.dbQuery(sqlStatement)
@@ -76,7 +85,7 @@ module.exports = function () {
     this.queryAlbum = async function (search) {
         let keyword = '%' + search + '%';
 
-        var sqlStatement = `SELECT artist_name, album_name, release_date, genre FROM albums WHERE artist_name LIKE '${keyword}' or album_name LIKE '${keyword}' or genre LIKE '${keyword}'`;
+        var sqlStatement = `SELECT artist_name, album_name, release_date, genre FROM albums WHERE artist_name LIKE '${keyword}' or album_name LIKE '${keyword}' or genre LIKE '${keyword}' ORDER BY album_name`;
         try {
             let query = await this.dbQuery(sqlStatement)
             return query[0];
@@ -97,7 +106,7 @@ module.exports = function () {
     }
 
     this.dbQuery = async function (sqlStatement, values) {
-        //console.log(sqlStatement, values);
+        console.log(sqlStatement, values);
         try {
             const connection = await this.connect();
             const result = await connection.execute(sqlStatement, values || []);

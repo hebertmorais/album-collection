@@ -1,0 +1,102 @@
+.main {
+    min-height: 100vh;
+    padding: 16px;
+    background: black;
+    background-image: linear-gradient(to right bottom, rgb(82, 71, 79), rgb(0, 0, 0)), linear-gradient(transparent, rgb(0, 0, 0) 70%);
+}
+
+.toolbar-search {
+    text-align: center;
+    background: black;
+    padding: 20px;
+}
+
+.toolbar-search input {
+    width: 70%;
+    color: #000;
+    padding: 5px 40px 5px 50px;
+    height: 40px;
+    line-height: 48px;
+    border: 0;
+    border-radius: 500px;
+}
+
+.frame-container {
+    max-width: 800px;
+    margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    display: grid;
+}
+
+.album-frame img {
+    height: 140px;
+    width: 140px;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+}
+
+.album-frame {
+    margin: 5px;
+}
+
+.album-frame-background {
+    padding: 20px 20px 16px;
+    background: rgba(40, 40, 40, .7);
+    border-radius: 8px;
+    max-width: 180px;
+    margin: 0 auto;
+}
+
+.data {
+    padding-top: 16px;
+    width: 140px;
+    display: block;
+    margin: 0 auto;
+
+}
+
+.album_title {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    letter-spacing: .24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    color: white;
+}
+
+.artist_name,
+.release_date {
+    font-size: 12px;
+    line-height: 18px;
+    overflow: hidden;
+    color: #b3b3b3;
+    padding: 0;
+    margin-top: 4px;
+}
+
+.release_date {
+    font-size: 12px;
+}
+
+.loading,
+.empty {
+    text-align: center;
+    color: white
+}
+
+.add-button {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 20px;
+    background: #ecc224;
+    border: 0;
+    color: white;
+    font-size: 21px;
+}
