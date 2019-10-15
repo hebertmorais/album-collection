@@ -17,13 +17,13 @@ export class AlbumService {
   constructor(private http: HttpClient) { }
 
   getAllAlbums() {
-    return this.http.get<Album>(`${Network.apiUrl}/`).pipe(
+    return this.http.get<Album>(`${Network.apiUrl}`).pipe(
       catchError(this.errorHandler)
     );
   }
 
   queryAlbums(keyword: string) {
-    return this.http.get<Album>(`${Network.apiUrl}/?q=${keyword}`).pipe(
+    return this.http.get<Album>(`${Network.apiUrl}?q=${keyword}`).pipe(
       catchError(this.errorHandler)
     );
   }
@@ -38,7 +38,7 @@ export class AlbumService {
       formData.append(key, album[key]);
     }
 
-    return this.http.post<Album>(`${Network.apiUrl}/album/`, formData).pipe(
+    return this.http.post<Album>(`${Network.apiUrl}album/`, formData).pipe(
       catchError(this.errorHandler)
     );
   }
@@ -53,13 +53,13 @@ export class AlbumService {
       formData.append(key, album[key]);
     }
 
-    return this.http.put<Album>(`${Network.apiUrl}/album/${album.id}`, formData).pipe(
+    return this.http.put<Album>(`${Network.apiUrl}album/${album.id}`, formData).pipe(
       catchError(this.errorHandler)
     );
   }
 
   deleteAlbum(albumId: number) {
-    return this.http.delete<Album>(`${Network.apiUrl}/album/${albumId}`, {}).pipe(
+    return this.http.delete<Album>(`${Network.apiUrl}album/${albumId}`, {}).pipe(
       catchError(this.errorHandler)
     );
   }
@@ -69,9 +69,10 @@ export class AlbumService {
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
     } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message} \n ${JSON.stringify(error.error)}`;
     }
-    console.log(errorMessage);
+    console.log(errorMessage, error);
+    alert('Houve algum erro, tente novamente mais tarde. Erro:\n' + errorMessage);
     return throwError(errorMessage);
   }
 
